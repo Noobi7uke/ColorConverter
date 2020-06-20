@@ -30,7 +30,7 @@ function toHSL(color) {
   let Cmax = Math.max(...color);
   let Cmin = Math.min(...color);
   let delta = Cmax - Cmin;
-  let L = ((Cmax + Cmin) / 2).toFixed(2);
+  let L = (Cmax + Cmin) / 2;
   let H = Math.floor(
     (delta === 0
       ? 0
@@ -40,17 +40,19 @@ function toHSL(color) {
       ? (color[2] - color[0]) / delta + 2
       : (color[0] - color[1]) / delta + 4) * 60
   );
-  let S = (delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1))).toFixed(2);
-  return `hsl(${H}, ${S}, ${L})`;
+  let S = delta === 0 ? 0 : delta / (1 - Math.abs(2 * L - 1));
+  return `hsl(${H}, ${S.toFixed(2)}, ${L.toFixed(2)})`;
 }
 
 function toCMYK(color) {
   color = [color.red / 255, color.green / 255, color.blue / 255];
-  let K = Math.floor(100 * (1 - Math.max(...color))) / 100;
-  let C = Math.floor(100 * ((1 - color[0] - K) / (1 - K))) / 100;
-  let M = Math.floor(100 * ((1 - color[1] - K) / (1 - K))) / 100;
-  let Y = Math.floor(100 * ((1 - color[2] - K) / (1 - K))) / 100;
-  return `cmyk(${C}, ${M}, ${Y}, ${K})`;
+  let K = 1 - Math.max(...color);
+  let C = (1 - color[0] - K) / (1 - K);
+  let M = (1 - color[1] - K) / (1 - K);
+  let Y = (1 - color[2] - K) / (1 - K);
+  return `cmyk(${C.toFixed(2)}, ${M.toFixed(2)}, ${Y.toFixed(2)}, ${K.toFixed(
+    2
+  )})`;
 }
 
 function fromRGB(value) {
