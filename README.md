@@ -1,2 +1,0 @@
-# ColorConverter
-Created with CodeSandbox
